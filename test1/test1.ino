@@ -10,10 +10,10 @@ const int stepPinY = 3;
 
 // تعريف المسافات بين الأعمدة والصفوف
 const int stepsPerColumn = 240;
-const int stepsPerRow = 2500;
+const int stepsPerRow = 4450;
 
 void getmd() {
-  a.write(180);
+  a.write(170);
   delay(1000);
   a.write(0);
   delay(1000);
@@ -90,7 +90,7 @@ void rof(int c1, int r1) {
   yup(ysteps);
   xleft(xsteps);
   getmd();
-  delay(1500);
+  delay(1000);
 
   ydown(ysteps);
   xright(xsteps);
@@ -104,6 +104,7 @@ void rof(int c1, int r1, int c2, int r2) {
 
   yup(yr1);
   xleft(xc1);
+  delay(2000);
   getmd();
   delay(1000);
 
@@ -148,7 +149,7 @@ void setup() {
   pinMode(dirPinY, OUTPUT);
   pinMode(stepPinY, OUTPUT);
   Serial.begin(115200); // بدء الاتصال التسلسلي بمعدل نقل 115200
-  delay(1000); // تأخير لبدء التشغيل
+  delay(3000); // تأخير لبدء التشغيل
 }
 
 void loop() {
@@ -199,7 +200,7 @@ void loop() {
       } else if (commaIndex1 != -1 && closeIndex != -1) {
         int c1 = input.substring(4, commaIndex1).toInt(); // استخراج قيمة العمود
         int r1 = input.substring(commaIndex1 + 1, closeIndex).toInt(); // استخراج قيمة الصف
-        rof(c1, r1); // استدعاء الدالة rof بالقيم المدخلة
+        // rof(c1, r1); // استدعاء الدالة rof بالقيم المدخلة
       }
     }
   }
@@ -207,185 +208,336 @@ void loop() {
 
 //3علب
 void rof(int c1, int r1, int c2, int r2, int c3, int r3) {
-  // مصفوفة الأعمدة والصفوف
-  int columns[] = {c1, c2, c3};
-  int rows[] = {r1, r2, r3;
+  // حساب عدد الخطوات المطلوبة لكل من المحاور X و Y للنقطة الأولى
+  int xc1 = c1 * stepsPerColumn;
+  int yr1 = r1 * stepsPerRow;
 
-  // تنفيذ العمليات لكل زوج من الأعمدة والصفوف
-  for (int i = 0; i < 3; i++) {
-    int xsteps = columns[i] * stepsPerColumn;
-    int ysteps = rows[i] * stepsPerRow;
+  yup(yr1);
+  xleft(xc1);
+  delay(2000);
+  getmd();
+  delay(1000);
 
-    // حركة X و Y للوصول إلى الموقع
-    yup(ysteps);
-    xleft(xsteps);
-    getmd();
-    delay(1000);
-
-    // إذا لم يكن هذا هو الزوج الأخير، قم بالانتقال إلى الزوج التالي
-    if (i < 9) {
-      int nextYsteps = (rows[i + 1] - rows[i]) * stepsPerRow;
-      if (nextYsteps > 0) {
-        yup(nextYsteps);
-      } else {
-        ydown(-nextYsteps);
-      }
-
-      int nextXsteps = (columns[i + 1] - columns[i]) * stepsPerColumn;
-      if (nextXsteps > 0) {
-        xleft(nextXsteps);
-      } else {
-        xright(-nextXsteps);
-      }
-
-      getmd();
-      delay(1000);
-    }
+  // الانتقال إلى النقطة الثانية
+  if (r2 > r1) {
+    int yr2 = (r2 - r1) * stepsPerRow;
+    yup(yr2);
   }
+  if (r1 > r2) {
+    int yr2 = (r1 - r2) * stepsPerRow;
+    ydown(yr2);
+  }
+  if (c2 > c1) {
+    int xc2 = (c2 - c1) * stepsPerColumn;
+    xleft(xc2);
+  }
+  if (c1 > c2) {
+    int xc2 = (c1 - c2) * stepsPerColumn;
+    xright(xc2);
+  }
+  getmd();
+  delay(1000);
 
-  // العودة إلى النقطة الأصلية
+  // الانتقال إلى النقطة الثالثة
+  if (r3 > r2) {
+    int yr3 = (r3 - r2) * stepsPerRow;
+    yup(yr3);
+  }
+  if (r2 > r3) {
+    int yr3 = (r2 - r3) * stepsPerRow;
+    ydown(yr3);
+  }
+  if (c3 > c2) {
+    int xc3 = (c3 - c2) * stepsPerColumn;
+    xleft(xc3);
+  }
+  if (c2 > c3) {
+    int xc3 = (c2 - c3) * stepsPerColumn;
+    xright(xc3);
+  }
+  getmd();
+
+  // الانتقال إلى النقطة النهائية والعودة إلى الأصل
   int xend = c3 * stepsPerColumn;
   int yend = r3 * stepsPerRow;
   ydown(yend);
   xright(xend);
   outarm();
 }
+
 //4علب
 void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4) {
-  // مصفوفة الأعمدة والصفوف
-  int columns[] = {c1, c2, c3, c4};
-  int rows[] = {r1, r2, r3, r4, r5};
+  // حساب عدد الخطوات المطلوبة لكل من المحاور X و Y للنقطة الأولى
+  int xc1 = c1 * stepsPerColumn;
+  int yr1 = r1 * stepsPerRow;
 
-  // تنفيذ العمليات لكل زوج من الأعمدة والصفوف
-  for (int i = 0; i < 4; i++) {
-    int xsteps = columns[i] * stepsPerColumn;
-    int ysteps = rows[i] * stepsPerRow;
+  yup(yr1);
+  xleft(xc1);
+  delay(2000);
+  getmd();
+  delay(1000);
 
-    // حركة X و Y للوصول إلى الموقع
-    yup(ysteps);
-    xleft(xsteps);
-    getmd();
-    delay(1000);
-
-    // إذا لم يكن هذا هو الزوج الأخير، قم بالانتقال إلى الزوج التالي
-    if (i < 9) {
-      int nextYsteps = (rows[i + 1] - rows[i]) * stepsPerRow;
-      if (nextYsteps > 0) {
-        yup(nextYsteps);
-      } else {
-        ydown(-nextYsteps);
-      }
-
-      int nextXsteps = (columns[i + 1] - columns[i]) * stepsPerColumn;
-      if (nextXsteps > 0) {
-        xleft(nextXsteps);
-      } else {
-        xright(-nextXsteps);
-      }
-
-      getmd();
-      delay(1000);
-    }
+  // الانتقال إلى النقطة الثانية
+  if (r2 > r1) {
+    int yr2 = (r2 - r1) * stepsPerRow;
+    yup(yr2);
+  } else if (r1 > r2) {
+    int yr2 = (r1 - r2) * stepsPerRow;
+    ydown(yr2);
   }
+  if (c2 > c1) {
+    int xc2 = (c2 - c1) * stepsPerColumn;
+    xleft(xc2);
+  } else if (c1 > c2) {
+    int xc2 = (c1 - c2) * stepsPerColumn;
+    xright(xc2);
+  }
+  getmd();
+  delay(1000);
 
-  // العودة إلى النقطة الأصلية
+  // الانتقال إلى النقطة الثالثة
+  if (r3 > r2) {
+    int yr3 = (r3 - r2) * stepsPerRow;
+    yup(yr3);
+  } else if (r2 > r3) {
+    int yr3 = (r2 - r3) * stepsPerRow;
+    ydown(yr3);
+  }
+  if (c3 > c2) {
+    int xc3 = (c3 - c2) * stepsPerColumn;
+    xleft(xc3);
+  } else if (c2 > c3) {
+    int xc3 = (c2 - c3) * stepsPerColumn;
+    xright(xc3);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الرابعة
+  if (r4 > r3) {
+    int yr4 = (r4 - r3) * stepsPerRow;
+    yup(yr4);
+  } else if (r3 > r4) {
+    int yr4 = (r3 - r4) * stepsPerRow;
+    ydown(yr4);
+  }
+  if (c4 > c3) {
+    int xc4 = (c4 - c3) * stepsPerColumn;
+    xleft(xc4);
+  } else if (c3 > c4) {
+    int xc4 = (c3 - c4) * stepsPerColumn;
+    xright(xc4);
+  }
+  getmd();
+
+  // الانتقال إلى النقطة النهائية والعودة إلى الأصل
   int xend = c4 * stepsPerColumn;
   int yend = r4 * stepsPerRow;
   ydown(yend);
   xright(xend);
   outarm();
 }
+
 //5 علب
 void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5, int r5) {
-  // مصفوفة الأعمدة والصفوف
-  int columns[] = {c1, c2, c3, c4, c5};
-  int rows[] = {r1, r2, r3, r4, r5};
+  // حساب عدد الخطوات المطلوبة لكل من المحاور X و Y للنقطة الأولى
+  int xc1 = c1 * stepsPerColumn;
+  int yr1 = r1 * stepsPerRow;
 
-  // تنفيذ العمليات لكل زوج من الأعمدة والصفوف
-  for (int i = 0; i < 10; i++) {
-    int xsteps = columns[i] * stepsPerColumn;
-    int ysteps = rows[i] * stepsPerRow;
+  yup(yr1);
+  xleft(xc1);
+  delay(2000);
+  getmd();
+  delay(1000);
 
-    // حركة X و Y للوصول إلى الموقع
-    yup(ysteps);
-    xleft(xsteps);
-    getmd();
-    delay(1000);
-
-    // إذا لم يكن هذا هو الزوج الأخير، قم بالانتقال إلى الزوج التالي
-    if (i < 9) {
-      int nextYsteps = (rows[i + 1] - rows[i]) * stepsPerRow;
-      if (nextYsteps > 0) {
-        yup(nextYsteps);
-      } else {
-        ydown(-nextYsteps);
-      }
-
-      int nextXsteps = (columns[i + 1] - columns[i]) * stepsPerColumn;
-      if (nextXsteps > 0) {
-        xleft(nextXsteps);
-      } else {
-        xright(-nextXsteps);
-      }
-
-      getmd();
-      delay(1000);
-    }
+  // الانتقال إلى النقطة الثانية
+  if (r2 > r1) {
+    int yr2 = (r2 - r1) * stepsPerRow;
+    yup(yr2);
+  } else if (r1 > r2) {
+    int yr2 = (r1 - r2) * stepsPerRow;
+    ydown(yr2);
   }
+  if (c2 > c1) {
+    int xc2 = (c2 - c1) * stepsPerColumn;
+    xleft(xc2);
+  } else if (c1 > c2) {
+    int xc2 = (c1 - c2) * stepsPerColumn;
+    xright(xc2);
+  }
+  getmd();
+  delay(1000);
 
-  // العودة إلى النقطة الأصلية
+  // الانتقال إلى النقطة الثالثة
+  if (r3 > r2) {
+    int yr3 = (r3 - r2) * stepsPerRow;
+    yup(yr3);
+  } else if (r2 > r3) {
+    int yr3 = (r2 - r3) * stepsPerRow;
+    ydown(yr3);
+  }
+  if (c3 > c2) {
+    int xc3 = (c3 - c2) * stepsPerColumn;
+    xleft(xc3);
+  } else if (c2 > c3) {
+    int xc3 = (c2 - c3) * stepsPerColumn;
+    xright(xc3);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الرابعة
+  if (r4 > r3) {
+    int yr4 = (r4 - r3) * stepsPerRow;
+    yup(yr4);
+  } else if (r3 > r4) {
+    int yr4 = (r3 - r4) * stepsPerRow;
+    ydown(yr4);
+  }
+  if (c4 > c3) {
+    int xc4 = (c4 - c3) * stepsPerColumn;
+    xleft(xc4);
+  } else if (c3 > c4) {
+    int xc4 = (c3 - c4) * stepsPerColumn;
+    xright(xc4);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الخامسة
+  if (r5 > r4) {
+    int yr5 = (r5 - r4) * stepsPerRow;
+    yup(yr5);
+  } else if (r4 > r5) {
+    int yr5 = (r4 - r5) * stepsPerRow;
+    ydown(yr5);
+  }
+  if (c5 > c4) {
+    int xc5 = (c5 - c4) * stepsPerColumn;
+    xleft(xc5);
+  } else if (c4 > c5) {
+    int xc5 = (c4 - c5) * stepsPerColumn;
+    xright(xc5);
+  }
+  getmd();
+
+  // الانتقال إلى النقطة النهائية والعودة إلى الأصل
   int xend = c5 * stepsPerColumn;
-  int yend = c5 * stepsPerRow;
+  int yend = r5 * stepsPerRow;
   ydown(yend);
   xright(xend);
   outarm();
 }
+
 //6 علب
-void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5, int r5, 
-         int c6, int r6) {
-  // مصفوفة الأعمدة والصفوف
-  int columns[] = {c1, c2, c3, c4, c5, c6};
-  int rows[] = {r1, r2, r3, r4, r5, r6};
+void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5, int r5, int c6, int r6) {
+  // حساب عدد الخطوات المطلوبة لكل من المحاور X و Y للنقطة الأولى
+  int xc1 = c1 * stepsPerColumn;
+  int yr1 = r1 * stepsPerRow;
 
-  // تنفيذ العمليات لكل زوج من الأعمدة والصفوف
-  for (int i = 0; i < 10; i++) {
-    int xsteps = columns[i] * stepsPerColumn;
-    int ysteps = rows[i] * stepsPerRow;
+  yup(yr1);
+  xleft(xc1);
+  delay(2000);
+  getmd();
+  delay(1000);
 
-    // حركة X و Y للوصول إلى الموقع
-    yup(ysteps);
-    xleft(xsteps);
-    getmd();
-    delay(1000);
-
-    // إذا لم يكن هذا هو الزوج الأخير، قم بالانتقال إلى الزوج التالي
-    if (i < 9) {
-      int nextYsteps = (rows[i + 1] - rows[i]) * stepsPerRow;
-      if (nextYsteps > 0) {
-        yup(nextYsteps);
-      } else {
-        ydown(-nextYsteps);
-      }
-
-      int nextXsteps = (columns[i + 1] - columns[i]) * stepsPerColumn;
-      if (nextXsteps > 0) {
-        xleft(nextXsteps);
-      } else {
-        xright(-nextXsteps);
-      }
-
-      getmd();
-      delay(1000);
-    }
+  // الانتقال إلى النقطة الثانية
+  if (r2 > r1) {
+    int yr2 = (r2 - r1) * stepsPerRow;
+    yup(yr2);
+  } else if (r1 > r2) {
+    int yr2 = (r1 - r2) * stepsPerRow;
+    ydown(yr2);
   }
+  if (c2 > c1) {
+    int xc2 = (c2 - c1) * stepsPerColumn;
+    xleft(xc2);
+  } else if (c1 > c2) {
+    int xc2 = (c1 - c2) * stepsPerColumn;
+    xright(xc2);
+  }
+  getmd();
+  delay(1000);
 
-  // العودة إلى النقطة الأصلية
+  // الانتقال إلى النقطة الثالثة
+  if (r3 > r2) {
+    int yr3 = (r3 - r2) * stepsPerRow;
+    yup(yr3);
+  } else if (r2 > r3) {
+    int yr3 = (r2 - r3) * stepsPerRow;
+    ydown(yr3);
+  }
+  if (c3 > c2) {
+    int xc3 = (c3 - c2) * stepsPerColumn;
+    xleft(xc3);
+  } else if (c2 > c3) {
+    int xc3 = (c2 - c3) * stepsPerColumn;
+    xright(xc3);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الرابعة
+  if (r4 > r3) {
+    int yr4 = (r4 - r3) * stepsPerRow;
+    yup(yr4);
+  } else if (r3 > r4) {
+    int yr4 = (r3 - r4) * stepsPerRow;
+    ydown(yr4);
+  }
+  if (c4 > c3) {
+    int xc4 = (c4 - c3) * stepsPerColumn;
+    xleft(xc4);
+  } else if (c3 > c4) {
+    int xc4 = (c3 - c4) * stepsPerColumn;
+    xright(xc4);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الخامسة
+  if (r5 > r4) {
+    int yr5 = (r5 - r4) * stepsPerRow;
+    yup(yr5);
+  } else if (r4 > r5) {
+    int yr5 = (r4 - r5) * stepsPerRow;
+    ydown(yr5);
+  }
+  if (c5 > c4) {
+    int xc5 = (c5 - c4) * stepsPerColumn;
+    xleft(xc5);
+  } else if (c4 > c5) {
+    int xc5 = (c4 - c5) * stepsPerColumn;
+    xright(xc5);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة السادسة
+  if (r6 > r5) {
+    int yr6 = (r6 - r5) * stepsPerRow;
+    yup(yr6);
+  } else if (r5 > r6) {
+    int yr6 = (r5 - r6) * stepsPerRow;
+    ydown(yr6);
+  }
+  if (c6 > c5) {
+    int xc6 = (c6 - c5) * stepsPerColumn;
+    xleft(xc6);
+  } else if (c5 > c6) {
+    int xc6 = (c5 - c6) * stepsPerColumn;
+    xright(xc6);
+  }
+  getmd();
+
+  // الانتقال إلى النقطة النهائية والعودة إلى الأصل
   int xend = c6 * stepsPerColumn;
   int yend = r6 * stepsPerRow;
   ydown(yend);
   xright(xend);
   outarm();
 }
+
 //7 علب
 void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5, int r5, 
          int c6, int r6, int c7, int r7) {
@@ -433,97 +585,314 @@ void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5,
   outarm();
 }
 //8 علب
-void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5, int r5, 
-         int c6, int r6, int c7, int r7, int c8, int r8) {
-  // مصفوفة الأعمدة والصفوف
-  int columns[] = {c1, c2, c3, c4, c5, c6, c7, c8};
-  int rows[] = {r1, r2, r3, r4, r5, r6, r7, r8};
+void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5, int r5, int c6, int r6, int c7, int r7, int c8, int r8) {
+  // حساب عدد الخطوات المطلوبة لكل من المحاور X و Y للنقطة الأولى
+  int xc1 = c1 * stepsPerColumn;
+  int yr1 = r1 * stepsPerRow;
 
-  // تنفيذ العمليات لكل زوج من الأعمدة والصفوف
-  for (int i = 0; i < 10; i++) {
-    int xsteps = columns[i] * stepsPerColumn;
-    int ysteps = rows[i] * stepsPerRow;
+  yup(yr1);
+  xleft(xc1);
+  delay(2000);
+  getmd();
+  delay(1000);
 
-    // حركة X و Y للوصول إلى الموقع
-    yup(ysteps);
-    xleft(xsteps);
-    getmd();
-    delay(1000);
-
-    // إذا لم يكن هذا هو الزوج الأخير، قم بالانتقال إلى الزوج التالي
-    if (i < 9) {
-      int nextYsteps = (rows[i + 1] - rows[i]) * stepsPerRow;
-      if (nextYsteps > 0) {
-        yup(nextYsteps);
-      } else {
-        ydown(-nextYsteps);
-      }
-
-      int nextXsteps = (columns[i + 1] - columns[i]) * stepsPerColumn;
-      if (nextXsteps > 0) {
-        xleft(nextXsteps);
-      } else {
-        xright(-nextXsteps);
-      }
-
-      getmd();
-      delay(1000);
-    }
+  // الانتقال إلى النقطة الثانية
+  if (r2 > r1) {
+    int yr2 = (r2 - r1) * stepsPerRow;
+    yup(yr2);
+  } else if (r1 > r2) {
+    int yr2 = (r1 - r2) * stepsPerRow;
+    ydown(yr2);
   }
+  if (c2 > c1) {
+    int xc2 = (c2 - c1) * stepsPerColumn;
+    xleft(xc2);
+  } else if (c1 > c2) {
+    int xc2 = (c1 - c2) * stepsPerColumn;
+    xright(xc2);
+  }
+  getmd();
+  delay(1000);
 
-  // العودة إلى النقطة الأصلية
+  // الانتقال إلى النقطة الثالثة
+  if (r3 > r2) {
+    int yr3 = (r3 - r2) * stepsPerRow;
+    yup(yr3);
+  } else if (r2 > r3) {
+    int yr3 = (r2 - r3) * stepsPerRow;
+    ydown(yr3);
+  }
+  if (c3 > c2) {
+    int xc3 = (c3 - c2) * stepsPerColumn;
+    xleft(xc3);
+  } else if (c2 > c3) {
+    int xc3 = (c2 - c3) * stepsPerColumn;
+    xright(xc3);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الرابعة
+  if (r4 > r3) {
+    int yr4 = (r4 - r3) * stepsPerRow;
+    yup(yr4);
+  } else if (r3 > r4) {
+    int yr4 = (r3 - r4) * stepsPerRow;
+    ydown(yr4);
+  }
+  if (c4 > c3) {
+    int xc4 = (c4 - c3) * stepsPerColumn;
+    xleft(xc4);
+  } else if (c3 > c4) {
+    int xc4 = (c3 - c4) * stepsPerColumn;
+    xright(xc4);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الخامسة
+  if (r5 > r4) {
+    int yr5 = (r5 - r4) * stepsPerRow;
+    yup(yr5);
+  } else if (r4 > r5) {
+    int yr5 = (r4 - r5) * stepsPerRow;
+    ydown(yr5);
+  }
+  if (c5 > c4) {
+    int xc5 = (c5 - c4) * stepsPerColumn;
+    xleft(xc5);
+  } else if (c4 > c5) {
+    int xc5 = (c4 - c5) * stepsPerColumn;
+    xright(xc5);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة السادسة
+  if (r6 > r5) {
+    int yr6 = (r6 - r5) * stepsPerRow;
+    yup(yr6);
+  } else if (r5 > r6) {
+    int yr6 = (r5 - r6) * stepsPerRow;
+    ydown(yr6);
+  }
+  if (c6 > c5) {
+    int xc6 = (c6 - c5) * stepsPerColumn;
+    xleft(xc6);
+  } else if (c5 > c6) {
+    int xc6 = (c5 - c6) * stepsPerColumn;
+    xright(xc6);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة السابعة
+  if (r7 > r6) {
+    int yr7 = (r7 - r6) * stepsPerRow;
+    yup(yr7);
+  } else if (r6 > r7) {
+    int yr7 = (r6 - r7) * stepsPerRow;
+    ydown(yr7);
+  }
+  if (c7 > c6) {
+    int xc7 = (c7 - c6) * stepsPerColumn;
+    xleft(xc7);
+  } else if (c6 > c7) {
+    int xc7 = (c6 - c7) * stepsPerColumn;
+    xright(xc7);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الثامنة
+  if (r8 > r7) {
+    int yr8 = (r8 - r7) * stepsPerRow;
+    yup(yr8);
+  } else if (r7 > r8) {
+    int yr8 = (r7 - r8) * stepsPerRow;
+    ydown(yr8);
+  }
+  if (c8 > c7) {
+    int xc8 = (c8 - c7) * stepsPerColumn;
+    xleft(xc8);
+  } else if (c7 > c8) {
+    int xc8 = (c7 - c8) * stepsPerColumn;
+    xright(xc8);
+  }
+  getmd();
+
+  // الانتقال إلى النقطة النهائية والعودة إلى الأصل
   int xend = c8 * stepsPerColumn;
   int yend = r8 * stepsPerRow;
   ydown(yend);
   xright(xend);
   outarm();
 }
+
+
 //9 علب
-void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5, int r5, 
-         int c6, int r6, int c7, int r7, int c8, int r8, int c9, int r9) {
-  // مصفوفة الأعمدة والصفوف
-  int columns[] = {c1, c2, c3, c4, c5, c6, c7, c8, c9};
-  int rows[] = {r1, r2, r3, r4, r5, r6, r7, r8, r9};
+void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5, int r5, int c6, int r6, int c7, int r7, int c8, int r8, int c9, int r9) {
+  // حساب عدد الخطوات المطلوبة لكل من المحاور X و Y للنقطة الأولى
+  int xc1 = c1 * stepsPerColumn;
+  int yr1 = r1 * stepsPerRow;
 
-  // تنفيذ العمليات لكل زوج من الأعمدة والصفوف
-  for (int i = 0; i < 10; i++) {
-    int xsteps = columns[i] * stepsPerColumn;
-    int ysteps = rows[i] * stepsPerRow;
+  yup(yr1);
+  xleft(xc1);
+  delay(2000);
+  getmd();
+  delay(1000);
 
-    // حركة X و Y للوصول إلى الموقع
-    yup(ysteps);
-    xleft(xsteps);
-    getmd();
-    delay(1000);
-
-    // إذا لم يكن هذا هو الزوج الأخير، قم بالانتقال إلى الزوج التالي
-    if (i < 9) {
-      int nextYsteps = (rows[i + 1] - rows[i]) * stepsPerRow;
-      if (nextYsteps > 0) {
-        yup(nextYsteps);
-      } else {
-        ydown(-nextYsteps);
-      }
-
-      int nextXsteps = (columns[i + 1] - columns[i]) * stepsPerColumn;
-      if (nextXsteps > 0) {
-        xleft(nextXsteps);
-      } else {
-        xright(-nextXsteps);
-      }
-
-      getmd();
-      delay(1000);
-    }
+  // الانتقال إلى النقطة الثانية
+  if (r2 > r1) {
+    int yr2 = (r2 - r1) * stepsPerRow;
+    yup(yr2);
+  } else if (r1 > r2) {
+    int yr2 = (r1 - r2) * stepsPerRow;
+    ydown(yr2);
   }
+  if (c2 > c1) {
+    int xc2 = (c2 - c1) * stepsPerColumn;
+    xleft(xc2);
+  } else if (c1 > c2) {
+    int xc2 = (c1 - c2) * stepsPerColumn;
+    xright(xc2);
+  }
+  getmd();
+  delay(1000);
 
-  // العودة إلى النقطة الأصلية
+  // الانتقال إلى النقطة الثالثة
+  if (r3 > r2) {
+    int yr3 = (r3 - r2) * stepsPerRow;
+    yup(yr3);
+  } else if (r2 > r3) {
+    int yr3 = (r2 - r3) * stepsPerRow;
+    ydown(yr3);
+  }
+  if (c3 > c2) {
+    int xc3 = (c3 - c2) * stepsPerColumn;
+    xleft(xc3);
+  } else if (c2 > c3) {
+    int xc3 = (c2 - c3) * stepsPerColumn;
+    xright(xc3);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الرابعة
+  if (r4 > r3) {
+    int yr4 = (r4 - r3) * stepsPerRow;
+    yup(yr4);
+  } else if (r3 > r4) {
+    int yr4 = (r3 - r4) * stepsPerRow;
+    ydown(yr4);
+  }
+  if (c4 > c3) {
+    int xc4 = (c4 - c3) * stepsPerColumn;
+    xleft(xc4);
+  } else if (c3 > c4) {
+    int xc4 = (c3 - c4) * stepsPerColumn;
+    xright(xc4);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الخامسة
+  if (r5 > r4) {
+    int yr5 = (r5 - r4) * stepsPerRow;
+    yup(yr5);
+  } else if (r4 > r5) {
+    int yr5 = (r4 - r5) * stepsPerRow;
+    ydown(yr5);
+  }
+  if (c5 > c4) {
+    int xc5 = (c5 - c4) * stepsPerColumn;
+    xleft(xc5);
+  } else if (c4 > c5) {
+    int xc5 = (c4 - c5) * stepsPerColumn;
+    xright(xc5);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة السادسة
+  if (r6 > r5) {
+    int yr6 = (r6 - r5) * stepsPerRow;
+    yup(yr6);
+  } else if (r5 > r6) {
+    int yr6 = (r5 - r6) * stepsPerRow;
+    ydown(yr6);
+  }
+  if (c6 > c5) {
+    int xc6 = (c6 - c5) * stepsPerColumn;
+    xleft(xc6);
+  } else if (c5 > c6) {
+    int xc6 = (c5 - c6) * stepsPerColumn;
+    xright(xc6);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة السابعة
+  if (r7 > r6) {
+    int yr7 = (r7 - r6) * stepsPerRow;
+    yup(yr7);
+  } else if (r6 > r7) {
+    int yr7 = (r6 - r7) * stepsPerRow;
+    ydown(yr7);
+  }
+  if (c7 > c6) {
+    int xc7 = (c7 - c6) * stepsPerColumn;
+    xleft(xc7);
+  } else if (c6 > c7) {
+    int xc7 = (c6 - c7) * stepsPerColumn;
+    xright(xc7);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الثامنة
+  if (r8 > r7) {
+    int yr8 = (r8 - r7) * stepsPerRow;
+    yup(yr8);
+  } else if (r7 > r8) {
+    int yr8 = (r7 - r8) * stepsPerRow;
+    ydown(yr8);
+  }
+  if (c8 > c7) {
+    int xc8 = (c8 - c7) * stepsPerColumn;
+    xleft(xc8);
+  } else if (c7 > c8) {
+    int xc8 = (c7 - c8) * stepsPerColumn;
+    xright(xc8);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة التاسعة
+  if (r9 > r8) {
+    int yr9 = (r9 - r8) * stepsPerRow;
+    yup(yr9);
+  } else if (r8 > r9) {
+    int yr9 = (r8 - r9) * stepsPerRow;
+    ydown(yr9);
+  }
+  if (c9 > c8) {
+    int xc9 = (c9 - c8) * stepsPerColumn;
+    xleft(xc9);
+  } else if (c8 > c9) {
+    int xc9 = (c8 - c9) * stepsPerColumn;
+    xright(xc9);
+  }
+  getmd();
+
+  // الانتقال إلى النقطة النهائية والعودة إلى الأصل
   int xend = c9 * stepsPerColumn;
   int yend = r9 * stepsPerRow;
   ydown(yend);
   xright(xend);
   outarm();
 }
+
 //10علب 
 void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5, int r5, 
          int c6, int r6, int c7, int r7, int c8, int r8, int c9, int r9, int c10, int r10) {
