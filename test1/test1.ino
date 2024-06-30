@@ -81,11 +81,11 @@ void ydown(const int ystepsDown) {
     delayMicroseconds(700);
   }
 }
-
+// علبه 1
 void rof(int c1, int r1) {
   // حساب عدد الخطوات المطلوبة لكل من المحاور X و Y
-  int xsteps = c1 * stepsPerColumn;
-  int ysteps = r1 * stepsPerRow;
+  int xsteps = c1 * stepsPerColumn; //x=7*240
+  int ysteps = r1 * stepsPerRow;// y=0
 
   yup(ysteps);
   xleft(xsteps);
@@ -99,12 +99,11 @@ void rof(int c1, int r1) {
 
 void rof(int c1, int r1, int c2, int r2) {
   // حساب عدد الخطوات المطلوبة لكل من المحاور X و Y
-  int xc1 = c1 * stepsPerColumn;
-  int yr1 = r1 * stepsPerRow;
+  int xc1 = c1 * stepsPerColumn;//x=7*240
+  int yr1 = r1 * stepsPerRow;//y= 0
 
   yup(yr1);
   xleft(xc1);
-  delay(2000);
   getmd();
   delay(1000);
 
@@ -188,24 +187,132 @@ void loop() {
     }
     // تحقق إذا كان الإدخال يبدأ بـ "rof("
     else if (input.startsWith("rof(")) {
+      // البحث عن الفواصل وإغلاق القوس
       int commaIndex1 = input.indexOf(',');
-      int commaIndex2 = input.lastIndexOf(',');
+      int commaIndex2 = input.indexOf(',', commaIndex1 + 1);
+      int commaIndex3 = input.indexOf(',', commaIndex2 + 1);
+      int commaIndex4 = input.indexOf(',', commaIndex3 + 1);
+      int commaIndex5 = input.indexOf(',', commaIndex4 + 1);
+      int commaIndex6 = input.indexOf(',', commaIndex5 + 1);
+      int commaIndex7 = input.indexOf(',', commaIndex6 + 1);
+      int commaIndex8 = input.indexOf(',', commaIndex7 + 1);
+      int commaIndex9 = input.indexOf(',', commaIndex8 + 1);
+      int commaIndex10 = input.indexOf(',', commaIndex9 + 1);
+      int commaIndex11 = input.indexOf(',', commaIndex10 + 1);
+      int commaIndex12 = input.indexOf(',', commaIndex11 + 1);
+      int commaIndex13 = input.indexOf(',', commaIndex12 + 1);
+      int commaIndex14 = input.indexOf(',', commaIndex13 + 1);
+      int commaIndex15 = input.indexOf(',', commaIndex14 + 1);
       int closeIndex = input.indexOf(')');
-      if (commaIndex1 != -1 && commaIndex2 != -1 && closeIndex != -1) {
-        int c1 = input.substring(4, commaIndex1).toInt(); // استخراج قيمة العمود الأول
-        int r1 = input.substring(commaIndex1 + 1, commaIndex2).toInt(); // استخراج قيمة الصف الأول
-        int c2 = input.substring(commaIndex2 + 1, closeIndex).toInt(); // استخراج قيمة العمود الثاني
-        int r2 = input.substring(closeIndex + 1).toInt(); // استخراج قيمة الصف الثاني
-        rof(c1, r1, c2, r2); // استدعاء الدالة rof بالقيم المدخلة
-      } else if (commaIndex1 != -1 && closeIndex != -1) {
-        int c1 = input.substring(4, commaIndex1).toInt(); // استخراج قيمة العمود
-        int r1 = input.substring(commaIndex1 + 1, closeIndex).toInt(); // استخراج قيمة الصف
-        // rof(c1, r1); // استدعاء الدالة rof بالقيم المدخلة
+
+      // تحقق من وجود جميع الفواصل وإغلاق القوس
+     if (commaIndex1 != -1 && commaIndex2 != -1 && commaIndex3 != -1 && commaIndex4 != -1 && commaIndex5 != -1 && commaIndex6 != -1 && commaIndex7 != -1 && commaIndex8 != -1 && commaIndex9 != -1 && commaIndex10 != -1 && commaIndex11 != -1 && commaIndex12 != -1 && commaIndex13 != -1 && commaIndex14 != -1 && commaIndex15 != -1 && closeIndex != -1) {
+        // استخراج القيم واستدعاء الدالة rof
+        int c1 = input.substring(4, commaIndex1).toInt();
+        int r1 = input.substring(commaIndex1 + 1, commaIndex2).toInt();
+        int c2 = input.substring(commaIndex2 + 1, commaIndex3).toInt();
+        int r2 = input.substring(commaIndex3 + 1, commaIndex4).toInt();
+        int c3 = input.substring(commaIndex4 + 1, commaIndex5).toInt();
+        int r3 = input.substring(commaIndex5 + 1, commaIndex6).toInt();
+        int c4 = input.substring(commaIndex6 + 1, commaIndex7).toInt();
+        int r4 = input.substring(commaIndex7 + 1, commaIndex8).toInt();
+        int c5 = input.substring(commaIndex8 + 1, commaIndex9).toInt();
+        int r5 = input.substring(commaIndex9 + 1, commaIndex10).toInt();
+        int c6 = input.substring(commaIndex10 + 1, commaIndex11).toInt();
+        int r6 = input.substring(commaIndex11 + 1, commaIndex12).toInt();
+        int c7 = input.substring(commaIndex12 + 1, commaIndex13).toInt();
+        int r7 = input.substring(commaIndex13 + 1, commaIndex14).toInt();
+        int c8 = input.substring(commaIndex14 + 1, commaIndex15).toInt();
+        int r8 = input.substring(commaIndex15 + 1, closeIndex).toInt();
+        rof(c1, r1, c2, r2, c3, r3, c4, r4, c5, r5, c6, r6, c7, r7, c8, r8);
+      }
+      else if (commaIndex1 != -1 && commaIndex2 != -1 && commaIndex3 != -1 && commaIndex4 != -1 && commaIndex5 != -1 && commaIndex6 != -1 && commaIndex7 != -1 && commaIndex8 != -1 && commaIndex9 != -1 && commaIndex10 != -1 && commaIndex11 != -1 && commaIndex12 != -1 && commaIndex13 != -1 && closeIndex != -1) {
+        // استخراج القيم واستدعاء الدالة rof بدون c8
+        int c1 = input.substring(4, commaIndex1).toInt();
+        int r1 = input.substring(commaIndex1 + 1, commaIndex2).toInt();
+        int c2 = input.substring(commaIndex2 + 1, commaIndex3).toInt();
+        int r2 = input.substring(commaIndex3 + 1, commaIndex4).toInt();
+        int c3 = input.substring(commaIndex4 + 1, commaIndex5).toInt();
+        int r3 = input.substring(commaIndex5 + 1, commaIndex6).toInt();
+        int c4 = input.substring(commaIndex6 + 1, commaIndex7).toInt();
+        int r4 = input.substring(commaIndex7 + 1, commaIndex8).toInt();
+        int c5 = input.substring(commaIndex8 + 1, commaIndex9).toInt();
+        int r5 = input.substring(commaIndex9 + 1, commaIndex10).toInt();
+        int c6 = input.substring(commaIndex10 + 1, commaIndex11).toInt();
+        int r6 = input.substring(commaIndex11 + 1, commaIndex12).toInt();
+        int c7 = input.substring(commaIndex12 + 1, commaIndex13).toInt();
+        int r7 = input.substring(commaIndex13 + 1, closeIndex).toInt();
+        rof(c1, r1, c2, r2, c3, r3, c4, r4, c5, r5, c6, r6, c7, r7);
+      }
+      else if (commaIndex1 != -1 && commaIndex2 != -1 && commaIndex3 != -1 && commaIndex4 != -1 && commaIndex5 != -1 && commaIndex6 != -1 && commaIndex7 != -1 && commaIndex8 != -1 && commaIndex9 != -1 && commaIndex10 != -1 && commaIndex11 != -1 && commaIndex12 != -1 && closeIndex != -1) {
+        // استخراج القيم واستدعاء الدالة rof بدون c7
+        int c1 = input.substring(4, commaIndex1).toInt();
+        int r1 = input.substring(commaIndex1 + 1, commaIndex2).toInt();
+        int c2 = input.substring(commaIndex2 + 1, commaIndex3).toInt();
+        int r2 = input.substring(commaIndex3 + 1, commaIndex4).toInt();
+        int c3 = input.substring(commaIndex4 + 1, commaIndex5).toInt();
+        int r3 = input.substring(commaIndex5 + 1, commaIndex6).toInt();
+        int c4 = input.substring(commaIndex6 + 1, commaIndex7).toInt();
+        int r4 = input.substring(commaIndex7 + 1, commaIndex8).toInt();
+        int c5 = input.substring(commaIndex8 + 1, commaIndex9).toInt();
+        int r5 = input.substring(commaIndex9 + 1, commaIndex10).toInt();
+        int c6 = input.substring(commaIndex10 + 1, commaIndex11).toInt();
+        int r6 = input.substring(commaIndex11 + 1, commaIndex12).toInt();
+        rof(c1, r1, c2, r2, c3, r3, c4, r4, c5, r5, c6, r6);
+      }
+      else if (commaIndex1 != -1 && commaIndex2 != -1 && commaIndex3 != -1 && commaIndex4 != -1 && commaIndex5 != -1 && commaIndex6 != -1 && commaIndex7 != -1 && commaIndex8 != -1 && commaIndex9 != -1 && commaIndex10 != -1 && closeIndex != -1) {
+        // استخراج القيم واستدعاء الدالة rof بدون c6
+        int c1 = input.substring(4, commaIndex1).toInt();
+        int r1 = input.substring(commaIndex1 + 1, commaIndex2).toInt();
+        int c2 = input.substring(commaIndex2 + 1, commaIndex3).toInt();
+        int r2 = input.substring(commaIndex3 + 1, commaIndex4).toInt();
+        int c3 = input.substring(commaIndex4 + 1, commaIndex5).toInt();
+        int r3 = input.substring(commaIndex5 + 1, commaIndex6).toInt();
+        int c4 = input.substring(commaIndex6 + 1, commaIndex7).toInt();
+        int r4 = input.substring(commaIndex7 + 1, commaIndex8).toInt();
+        int c5 = input.substring(commaIndex8 + 1, commaIndex9).toInt();
+        int r5 = input.substring(commaIndex9 + 1, commaIndex10).toInt();
+        rof(c1, r1, c2, r2, c3, r3, c4, r4, c5, r5);
+      }
+      else if (commaIndex1 != -1 && commaIndex2 != -1 && commaIndex3 != -1 && commaIndex4 != -1 && commaIndex5 != -1 && commaIndex6 != -1 && commaIndex7 != -1 && commaIndex8 != -1 && closeIndex != -1) {
+        // استخراج القيم واستدعاء الدالة rof بدون c5
+        int c1 = input.substring(4, commaIndex1).toInt();
+        int r1 = input.substring(commaIndex1 + 1, commaIndex2).toInt();
+        int c2 = input.substring(commaIndex2 + 1, commaIndex3).toInt();
+        int r2 = input.substring(commaIndex3 + 1, commaIndex4).toInt();
+        int c3 = input.substring(commaIndex4 + 1, commaIndex5).toInt();
+        int r3 = input.substring(commaIndex5 + 1, commaIndex6).toInt();
+        int c4 = input.substring(commaIndex6 + 1, commaIndex7).toInt();
+        int r4 = input.substring(commaIndex7 + 1, commaIndex8).toInt();
+        rof(c1, r1, c2, r2, c3, r3, c4, r4);
+      }
+      else if (commaIndex1 != -1 && commaIndex2 != -1 && commaIndex3 != -1 && commaIndex4 != -1 && commaIndex5 != -1 && commaIndex6 != -1 && commaIndex7 != -1 && closeIndex != -1) {
+        // استخراج القيم واستدعاء الدالة rof بدون c4
+        int c1 = input.substring(4, commaIndex1).toInt();
+        int r1 = input.substring(commaIndex1 + 1, commaIndex2).toInt();
+        int c2 = input.substring(commaIndex2 + 1, commaIndex3).toInt();
+        int r2 = input.substring(commaIndex3 + 1, commaIndex4).toInt();
+        int c3 = input.substring(commaIndex4 + 1, commaIndex5).toInt();
+        int r3 = input.substring(commaIndex5 + 1, commaIndex6).toInt();
+        rof(c1, r1, c2, r2, c3, r3);
+      }
+      else if (commaIndex1 != -1 && commaIndex2 != -1 && commaIndex3 != -1 && commaIndex4 != -1 && closeIndex != -1) {
+        // استخراج القيم واستدعاء الدالة rof بدون c3
+        int c1 = input.substring(4, commaIndex1).toInt();
+        int r1 = input.substring(commaIndex1 + 1, commaIndex2).toInt();
+        int c2 = input.substring(commaIndex2 + 1, commaIndex3).toInt();
+        int r2 = input.substring(commaIndex3 + 1, closeIndex).toInt();
+        rof(c1, r1, c2, r2);
+      }
+      else if (commaIndex1 != -1 && closeIndex != -1) {
+        // استخراج القيم واستدعاء الدالة rof بدون c2
+        int c1 = input.substring(4, commaIndex1).toInt();
+        int r1 = input.substring(commaIndex1 + 1, closeIndex).toInt();
+        rof(c1, r1);
       }
     }
   }
 }
-
 //3علب
 void rof(int c1, int r1, int c2, int r2, int c3, int r3) {
   // حساب عدد الخطوات المطلوبة لكل من المحاور X و Y للنقطة الأولى
@@ -337,7 +444,7 @@ void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4) {
   xright(xend);
   outarm();
 }
-
+//rof(7,0,3,0,5,0,3,2,5,2);
 //5 علب
 void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5, int r5) {
   // حساب عدد الخطوات المطلوبة لكل من المحاور X و Y للنقطة الأولى
@@ -345,8 +452,7 @@ void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5,
   int yr1 = r1 * stepsPerRow;
 
   yup(yr1);
-  xleft(xc1);
-  delay(2000);
+  xleft(xc1); 
   getmd();
   delay(1000);
 
@@ -388,7 +494,7 @@ void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5,
 
   // الانتقال إلى النقطة الرابعة
   if (r4 > r3) {
-    int yr4 = (r4 - r3) * stepsPerRow;
+    int   = (r4 - r3) * stepsPerRow;
     yup(yr4);
   } else if (r3 > r4) {
     int yr4 = (r3 - r4) * stepsPerRow;
@@ -541,41 +647,122 @@ void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5,
 //7 علب
 void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5, int r5, 
          int c6, int r6, int c7, int r7) {
-  // مصفوفة الأعمدة والصفوف
-  int columns[] = {c1, c2, c3, c4, c5, c6, c7};
-  int rows[] = {r1, r2, r3, r4, r5, r6, r7};
+  int xc1 = c1 * stepsPerColumn;
+  int yr1 = r1 * stepsPerRow;
 
-  // تنفيذ العمليات لكل زوج من الأعمدة والصفوف
-  for (int i = 0; i < 10; i++) {
-    int xsteps = columns[i] * stepsPerColumn;
-    int ysteps = rows[i] * stepsPerRow;
+  yup(yr1);
+  xleft(xc1);
+  delay(2000);
+  getmd();
+  delay(1000);
 
-    // حركة X و Y للوصول إلى الموقع
-    yup(ysteps);
-    xleft(xsteps);
-    getmd();
-    delay(1000);
-
-    // إذا لم يكن هذا هو الزوج الأخير، قم بالانتقال إلى الزوج التالي
-    if (i < 9) {
-      int nextYsteps = (rows[i + 1] - rows[i]) * stepsPerRow;
-      if (nextYsteps > 0) {
-        yup(nextYsteps);
-      } else {
-        ydown(-nextYsteps);
-      }
-
-      int nextXsteps = (columns[i + 1] - columns[i]) * stepsPerColumn;
-      if (nextXsteps > 0) {
-        xleft(nextXsteps);
-      } else {
-        xright(-nextXsteps);
-      }
-
-      getmd();
-      delay(1000);
-    }
+  // الانتقال إلى النقطة الثانية
+  if (r2 > r1) {
+    int yr2 = (r2 - r1) * stepsPerRow;
+    yup(yr2);
+  } else if (r1 > r2) {
+    int yr2 = (r1 - r2) * stepsPerRow;
+    ydown(yr2);
   }
+  if (c2 > c1) {
+    int xc2 = (c2 - c1) * stepsPerColumn;
+    xleft(xc2);
+  } else if (c1 > c2) {
+    int xc2 = (c1 - c2) * stepsPerColumn;
+    xright(xc2);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الثالثة
+  if (r3 > r2) {
+    int yr3 = (r3 - r2) * stepsPerRow;
+    yup(yr3);
+  } else if (r2 > r3) {
+    int yr3 = (r2 - r3) * stepsPerRow;
+    ydown(yr3);
+  }
+  if (c3 > c2) {
+    int xc3 = (c3 - c2) * stepsPerColumn;
+    xleft(xc3);
+  } else if (c2 > c3) {
+    int xc3 = (c2 - c3) * stepsPerColumn;
+    xright(xc3);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الرابعة
+  if (r4 > r3) {
+    int yr4 = (r4 - r3) * stepsPerRow;
+    yup(yr4);
+  } else if (r3 > r4) {
+    int yr4 = (r3 - r4) * stepsPerRow;
+    ydown(yr4);
+  }
+  if (c4 > c3) {
+    int xc4 = (c4 - c3) * stepsPerColumn;
+    xleft(xc4);
+  } else if (c3 > c4) {
+    int xc4 = (c3 - c4) * stepsPerColumn;
+    xright(xc4);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة الخامسة
+  if (r5 > r4) {
+    int yr5 = (r5 - r4) * stepsPerRow;
+    yup(yr5);
+  } else if (r4 > r5) {
+    int yr5 = (r4 - r5) * stepsPerRow;
+    ydown(yr5);
+  }
+  if (c5 > c4) {
+    int xc5 = (c5 - c4) * stepsPerColumn;
+    xleft(xc5);
+  } else if (c4 > c5) {
+    int xc5 = (c4 - c5) * stepsPerColumn;
+    xright(xc5);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة السادسة
+  if (r6 > r5) {
+    int yr6 = (r6 - r5) * stepsPerRow;
+    yup(yr6);
+  } else if (r5 > r6) {
+    int yr6 = (r5 - r6) * stepsPerRow;
+    ydown(yr6);
+  }
+  if (c6 > c5) {
+    int xc6 = (c6 - c5) * stepsPerColumn;
+    xleft(xc6);
+  } else if (c5 > c6) {
+    int xc6 = (c5 - c6) * stepsPerColumn;
+    xright(xc6);
+  }
+  getmd();
+  delay(1000);
+
+  // الانتقال إلى النقطة السابعة
+  if (r7 > r6) {
+    int yr7 = (r7 - r6) * stepsPerRow;
+    yup(yr7);
+  } else if (r6 > r7) {
+    int yr7 = (r6 - r7) * stepsPerRow;
+    ydown(yr7);
+  }
+  if (c7 > c6) {
+    int xc7 = (c7 - c6) * stepsPerColumn;
+    xleft(xc7);
+  } else if (c6 > c7) {
+    int xc7 = (c6 - c7) * stepsPerColumn;
+    xright(xc7);
+  }
+  getmd();
+  delay(1000);
 
   // العودة إلى النقطة الأصلية
   int xend = c7 * stepsPerColumn;
@@ -888,53 +1075,6 @@ void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5,
   // الانتقال إلى النقطة النهائية والعودة إلى الأصل
   int xend = c9 * stepsPerColumn;
   int yend = r9 * stepsPerRow;
-  ydown(yend);
-  xright(xend);
-  outarm();
-}
-
-//10علب 
-void rof(int c1, int r1, int c2, int r2, int c3, int r3, int c4, int r4, int c5, int r5, 
-         int c6, int r6, int c7, int r7, int c8, int r8, int c9, int r9, int c10, int r10) {
-  // مصفوفة الأعمدة والصفوف
-  int columns[] = {c1, c2, c3, c4, c5, c6, c7, c8, c9, c10};
-  int rows[] = {r1, r2, r3, r4, r5, r6, r7, r8, r9, r10};
-
-  // تنفيذ العمليات لكل زوج من الأعمدة والصفوف
-  for (int i = 0; i < 10; i++) {
-    int xsteps = columns[i] * stepsPerColumn;
-    int ysteps = rows[i] * stepsPerRow;
-
-    // حركة X و Y للوصول إلى الموقع
-    yup(ysteps);
-    xleft(xsteps);
-    getmd();
-    delay(1000);
-
-    // إذا لم يكن هذا هو الزوج الأخير، قم بالانتقال إلى الزوج التالي
-    if (i < 9) {
-      int nextYsteps = (rows[i + 1] - rows[i]) * stepsPerRow;
-      if (nextYsteps > 0) {
-        yup(nextYsteps);
-      } else {
-        ydown(-nextYsteps);
-      }
-
-      int nextXsteps = (columns[i + 1] - columns[i]) * stepsPerColumn;
-      if (nextXsteps > 0) {
-        xleft(nextXsteps);
-      } else {
-        xright(-nextXsteps);
-      }
-
-      getmd();
-      delay(1000);
-    }
-  }
-
-  // العودة إلى النقطة الأصلية
-  int xend = c10 * stepsPerColumn;
-  int yend = r10 * stepsPerRow;
   ydown(yend);
   xright(xend);
   outarm();
